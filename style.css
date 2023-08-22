@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    width: 960px;
+    height: 960px;
+    border: 1px solid black;
+    flex-wrap: wrap;
+    gap: 0px;
+    border-color: rgba(0,0,255,1);
+}
+
+.gridBox {
+
+    border: 1px solid black;
+    border-color: rgba(0,0,255,0.25);
+}
