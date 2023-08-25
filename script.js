@@ -21,7 +21,7 @@ function createGrid(size) {
 
 function getGridSize() {
   board.innerHTML = "";
-  const input = document.querySelector(".gridSize > input");
+  const input = document.querySelector("input");
   gridSize = Number(input.value);
   createGrid(gridSize);
 }
@@ -50,6 +50,8 @@ function random_bg_color() {
 }
 function resetAll() {
   board.innerHTML = ""
+  document.querySelector("input").value = ""
+  document.querySelector("select").value = ""
   createGrid(16)
 }
 createGrid(16);
