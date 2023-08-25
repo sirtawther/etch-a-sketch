@@ -1,56 +1,55 @@
-let color = "black";
-let clicked = true;
-let board = document.querySelector(".board");
-function populateGrid(size) {
-  board.style.gridTemplateColumns = `repeat(${size},1fr)`;
-  board.style.gridTemplateRows = `repeat(${size},1fr)`;
+const board = document.querySelector(".board");
+let gridSize;
+let isDrawing = false;
 
+function createGrid(size) {
   for (let i = 0; i < size * size; i++) {
-    let square = document.createElement("div");
-    square.style.backgroundColor = "white";
-   
-      square.addEventListener("mouseover", colorSquare);
-      board.appendChild(square);
-      
- 
+    const box = document.createElement("div");
+    let width = Math.floor(500 / size);
+    let height = Math.floor(500 / size);
+    box.style.width = `${width}px`;
+    box.style.height = `${height}px`;
+    box.style.backgroundColor = "white";
+    board.appendChild(box);
+
+    box.addEventListener("mouseover", drawColor);
+
+    box.addEventListener("mousedown", () => (isDrawing = true));
+    box.addEventListener("mouseup", () => (isDrawing = false));
   }
 }
-let input = document.querySelector("input");
 
-populateGrid(100);
-function getSize() {
-  if (input.value > 100 || input.value < 2) alert("Not valid grid");
-  populateGrid(input.value);
+function getGridSize() {
+  board.innerHTML = "";
+  const input = document.querySelector(".gridSize > input");
+  gridSize = Number(input.value);
+  createGrid(gridSize);
 }
 
-function colorSquare() {
-  if (clicked) {
-
-    if (color == "random") {
-      var x = Math.floor(Math.random() * 256);
-      var y = Math.floor(Math.random() * 256);
-      var z = Math.floor(Math.random() * 256);
-      var bgColor = "rgb(" + x + "," + y + "," + z + ")";
-      this.style.backgroundColor = bgColor;
+function drawColor() {
+  if (isDrawing) {
+    let select = document.querySelector("select");
+    if (select.value == "grey") {
+      this.style.backgroundColor = "grey";
+    } else if (select.value == "rainbow") {
+      this.style.backgroundColor = random_bg_color();
+    } else if (select.value == "eraser") {
+      this.style.backgroundColor = "white";
+    } else {
+      this.style.backgroundColor = "black";
     }
-    this.style.backgroundColor = color;
   }
 }
 
-function changeColor(choice) {
-  color = choice;
+function random_bg_color() {
+  let x = Math.floor(Math.random() * 256);
+  let y = Math.floor(Math.random() * 256);
+  let z = Math.floor(Math.random() * 256);
+  let bgColor = "rgb(" + x + "," + y + "," + z + ")";
+  return bgColor;
 }
-
-function resetBackground() {
-  const boxes = document.querySelectorAll(".board > div");
-
-  boxes.forEach((box) => {
-    box.remove();
-  });
-  populateGrid(100);
-  color = "black"
+function resetAll() {
+  board.innerHTML = ""
+  createGrid(16)
 }
-
-document.querySelector("body").addEventListener("click", () => {
-  clicked = !clicked
-})
+createGrid(16);
